@@ -1,4 +1,4 @@
-# claude-goal-loop
+# AI-Goal-Loop
 
 A self-running **goal-loop** agent skill for **Claude Code** and **GitHub Copilot CLI**.
 `/goal-loop <feature request>` turns a rough idea into **one self-running, bounded
@@ -18,7 +18,7 @@ Copilot CLI, and more.
 ## Install (recommended — auto-updates)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/JD2005L/claude-goal-loop/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/JD2005L/AI-Goal-Loop/main/install.sh | bash
 ```
 
 The installer detects which CLIs you have and installs into each:
@@ -33,7 +33,7 @@ prior static (non-git) copy. If neither CLI is detected, force one or both:
 
 ```bash
 INSTALL_CLAUDE=1 INSTALL_COPILOT=1 \
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/JD2005L/claude-goal-loop/main/install.sh)"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/JD2005L/AI-Goal-Loop/main/install.sh)"
 ```
 
 Then activate it:
@@ -47,7 +47,7 @@ Then activate it:
 
 ```bash
 mkdir -p ~/.claude/skills/goal-loop
-curl -fsSL https://raw.githubusercontent.com/JD2005L/claude-goal-loop/main/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/JD2005L/AI-Goal-Loop/main/SKILL.md \
   -o ~/.claude/skills/goal-loop/SKILL.md
 ```
 
@@ -55,7 +55,7 @@ curl -fsSL https://raw.githubusercontent.com/JD2005L/claude-goal-loop/main/SKILL
 
 ```bash
 mkdir -p ~/.copilot/skills/goal-loop
-curl -fsSL https://raw.githubusercontent.com/JD2005L/claude-goal-loop/main/SKILL.md \
+curl -fsSL https://raw.githubusercontent.com/JD2005L/AI-Goal-Loop/main/SKILL.md \
   -o ~/.copilot/skills/goal-loop/SKILL.md
 ```
 
