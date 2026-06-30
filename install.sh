@@ -11,7 +11,7 @@
 # Force a target even if its dir is absent: INSTALL_CLAUDE=1 / INSTALL_COPILOT=1.
 set -euo pipefail
 
-REPO="https://github.com/JD2005L/claude-goal-loop.git"
+REPO="https://github.com/JD2005L/AI-Goal-Loop.git"
 
 CLAUDE_HOME="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 COPILOT_HOME_DIR="${COPILOT_HOME:-$HOME/.copilot}"
@@ -122,7 +122,7 @@ if [ "$installed_any" = "0" ]; then
   echo "No Claude Code (~/.claude) or Copilot CLI (~/.copilot) install detected."
   echo "Force one or both and re-run, e.g.:"
   echo "  INSTALL_CLAUDE=1 INSTALL_COPILOT=1 \\"
-  echo "    bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/JD2005L/claude-goal-loop/main/install.sh)\""
+  echo "    bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/JD2005L/AI-Goal-Loop/main/install.sh)\""
   exit 1
 fi
 
