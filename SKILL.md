@@ -20,17 +20,17 @@ The acceptance criteria are the loop's measure: the loop is *done* exactly when 
 
 ## Inputs
 
-The rough feature request is whatever the user passed as arguments:
+The rough feature request is whatever the user asked for when invoking the skill. In Claude Code that argument text is available below as `$ARGUMENTS`; in GitHub Copilot CLI (and other agents) it's simply the feature described in the prompt that triggered the skill.
 
 > $ARGUMENTS
 
-If it's empty, ask what to build. If it's too vague to write measurable criteria (you can't tell where it lives or what "done" looks like), ask **one or two** focused clarifying questions, then continue. Don't over-question — prefer sensible defaults from existing patterns and record them as assumptions.
+If that's empty, ask what to build. If it's too vague to write measurable criteria (you can't tell where it lives or what "done" looks like), ask **one or two** focused clarifying questions, then continue. Don't over-question — prefer sensible defaults from existing patterns and record them as assumptions.
 
 ## Step 1 — Assess (read-only)
 
 Do a quick **read-only** pass — this is research, not the implementation:
 
-- **Verification commands.** Find the real build, test, and lint/format commands (`CLAUDE.md`, `README`, `package.json` scripts, `*.csproj`/`*.sln`, `Makefile`, `pyproject.toml`, CI configs, lint configs). Record the exact commands. If **no tests cover this area**, the measure is build/lint **plus a concrete manual test plan** — do not invent a fake suite.
+- **Verification commands.** Find the real build, test, and lint/format commands (`AGENTS.md`, `.github/copilot-instructions.md`, `CLAUDE.md`, `README`, `package.json` scripts, `*.csproj`/`*.sln`, `Makefile`, `pyproject.toml`, CI configs, lint configs). Record the exact commands. If **no tests cover this area**, the measure is build/lint **plus a concrete manual test plan** — do not invent a fake suite.
 - **Reusable patterns.** Identify the specific existing components, helpers, icons, styles, conventions, and test patterns this feature should reuse. Name them concretely (file/class/component names).
 - **Acceptance criteria.** Turn the request into explicit pass/fail criteria, grouped under: **User-visible behavior · State handling · Error/edge cases · Tests/build/lint · Accessibility** (if UI; else mark N/A) **· Non-regression**. Each criterion must be checkable from observable behavior or command output, not a vague goal.
 - **UX assumptions.** Where the request leaves UX or implementation open, choose defaults from existing patterns and record each assumption explicitly.
@@ -55,14 +55,14 @@ Then ask the user to **confirm or adjust**. Skip this confirmation only if the i
 
 ## Step 4 — Run the loop
 
-Open (or resume) an implementation log at `.claude/goal-loops/<slug>.md` (`<slug>` = a short kebab name for the feature). This log is the resumable state — it holds the increment plan, each criterion's status, and per-criterion attempt counts; it survives context compaction and new sessions.
+Open (or resume) an implementation log at `.goal-loops/<slug>.md` (`<slug>` = a short kebab name for the feature). This log is the resumable state — it holds the increment plan, each criterion's status, and per-criterion attempt counts; it survives context compaction and new sessions.
 
 Then iterate. **Each iteration:**
 
 1. **Pick** the next increment from the plan (or the highest-priority unmet criterion).
 2. **Change** — make one focused change to advance it. Reuse the named existing patterns. No speculative changes, no unrelated refactors or redesigns.
 3. **Verify (real signal)** — run the verification commands and show their output in the transcript.
-4. **Verify (independent + adversarial)** — when a criterion now looks satisfied, prove it **skeptically** before marking it PASS: judge it from the evidence (diff + command output) with a *try-to-disprove-it* mindset, defaulting to FAIL if it isn't clearly demonstrated. For any non-trivial criterion, run this check as a **separate subagent** (Agent tool, e.g. `general-purpose`) given only the criterion plus the evidence and asked to refute it — so the implementer isn't grading its own work. Then re-mark **every** criterion PASS/FAIL with the evidence that justifies it.
+4. **Verify (independent + adversarial)** — when a criterion now looks satisfied, prove it **skeptically** before marking it PASS: judge it from the evidence (diff + command output) with a *try-to-disprove-it* mindset, defaulting to FAIL if it isn't clearly demonstrated. For any non-trivial criterion, run this check as a **separate subagent** (your agent's subagent mechanism — Claude Code's Agent tool or Copilot CLI's Task tool — typically a `general-purpose` agent) given only the criterion plus the evidence and asked to refute it — so the implementer isn't grading its own work. Then re-mark **every** criterion PASS/FAIL with the evidence that justifies it.
 5. **Stuck-detection** — record the attempt and outcome per criterion in the log. If the same criterion fails **~2 times with no real progress**, stop repeating the same fix: diagnose the root cause and **change approach** (different file/strategy/assumption). If the changed approach still fails, **stop and escalate to the user** with the specific blocker — don't keep cycling.
 6. **Log** — append a dated entry: the increment, the one change made, both verification results, criterion statuses, the attempt count, and the next step.
 
@@ -81,7 +81,7 @@ When the loop ends, post: what changed, the list of files changed, the verificat
 
 ## Resuming
 
-If `/goal-loop` is run again for the same feature (or after an interruption), read `.claude/goal-loops/<slug>.md` first (plan, criterion statuses, attempt counts), re-confirm the criteria, and continue from the last logged state instead of restarting.
+If `/goal-loop` is run again for the same feature (or after an interruption), read `.goal-loops/<slug>.md` first (plan, criterion statuses, attempt counts), re-confirm the criteria, and continue from the last logged state instead of restarting.
 
 ## Global constraints (always)
 
